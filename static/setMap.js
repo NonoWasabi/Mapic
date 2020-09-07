@@ -308,10 +308,3 @@ var Options = {
         ]
 };
 var map = new google.maps.Map(document.getElementById('map'), Options);
-
-var map_prime = document.getElementById("map");
-map_prime.children[0].setAttribute('id', "mapchild1");
-var mapchild1 = document.getElementById("mapchild1");
-mapchild1.children[0].setAttribute('id', 'mapchild2');
-var mapchild2 = document.getElementById("mapchild2");
-
