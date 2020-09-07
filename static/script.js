@@ -1,32 +1,4 @@
-function Set_Marker(lat, lng){
-    console.log("Set_Marker")
-    var MarkerPosition = {lat, lng}
-    var MarkerOptions_cheki = {
-        map: map,
-        position: MarkerPosition,
-        clikcable: true,
-        icon: {
-            url: '../static/img/cheki.svg',
-            oeigin: new google.maps.Point(0, 0),
-            anchor: new google.maps.Point(63, 7)
-        },
-    };
-    var MarkerOptions_phi = {
-        map: map,
-        position: MarkerPosition,
-        clikcable: false,
-        icon: {
-            url: '../static/img/phi.svg',
-            scaledSize: new google.maps.Size(24.5,37.5)
-        },
-        animation: google.maps.Animation.DROP 
-    };
-
-    var cheki_marker = new google.maps.Marker(MarkerOptions_cheki)
-    var phi_marker = new google.maps.Marker(MarkerOptions_phi)
-    console.log(cheki_marker)
-}
-
+var id_manager = 1
 function show_popup() {
     console.log("enter_the_function")
     var popup = document.getElementById('popup');
@@ -49,6 +21,42 @@ function show_popup() {
         });
     }
 }
+
+function Set_Marker(lat, lng){
+    console.log("Set_Marker")
+    var MarkerPosition = {lat, lng}
+    var MarkerOptions_cheki = {
+        map: map,
+        position: MarkerPosition,
+        clikcable: true,
+        post_id:id_manager,
+        icon: {
+            url: '../static/img/cheki.svg',
+            oeigin: new google.maps.Point(0, 0),
+            anchor: new google.maps.Point(63, 7)
+        },
+    };
+    id_manager += 1;
+    var MarkerOptions_phi = {
+        map: map,
+        position: MarkerPosition,
+        clikcable: false,
+        icon: {
+            url: '../static/img/phi.svg',
+            scaledSize: new google.maps.Size(24.5,37.5)
+        },
+        animation: google.maps.Animation.DROP 
+    };
+
+    var cheki_marker = new google.maps.Marker(MarkerOptions_cheki)
+    var phi_marker = new google.maps.Marker(MarkerOptions_phi)
+    google.maps.event.addListener(cheki_marker,'click',()=>{
+        console.log(cheki_marker.post_id)
+        show_popup();
+    });
+}
+
+
 
 map.addListener('click', function(e){
     var lat = e.latLng.lat(); //緯度
