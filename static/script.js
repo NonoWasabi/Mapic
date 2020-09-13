@@ -22,18 +22,21 @@ function show_popup() {
     }
 }
 
-function Set_Marker(lat, lng){
+function Set_Marker(marker_name, lat, lng, img){
     console.log("Set_Marker")
+    //画像のサイズを決定する関数が必要
     var MarkerPosition = {lat, lng}
     var MarkerOptions_cheki = {
         map: map,
+        name: marker_name,
         position: MarkerPosition,
         clikcable: true,
         post_id:id_manager,
         icon: {
-            url: '../static/img/cheki.svg',
+            url: img,
             oeigin: new google.maps.Point(0, 0),
-            anchor: new google.maps.Point(63, 7)
+            anchor: new google.maps.Point(63, 7),
+            scaledSize: new google.maps.Size(124,124)
         },
     };
     id_manager += 1;
@@ -56,12 +59,27 @@ function Set_Marker(lat, lng){
     });
 }
 
-
+const tack = document.getElementById('tack');
+var tacking_flag = false;
+tack.addEventListener('click', function(e){
+    console.log("tacking");
+    e.preventDefault();
+    tacking_flag = true;
+});
 
 map.addListener('click', function(e){
-    var lat = e.latLng.lat(); //緯度
-    var lng = e.latLng.lng(); //経度
-    console.log(lat, lng);
-    //show_popup();
-    Set_Marker(lat, lng);
+    if(tacking_flag){
+        var lat = e.latLng.lat(); //緯度
+        var lng = e.latLng.lng(); //経度
+        console.log(lat, lng);
+        //show_popup();
+        Set_Marker("hoge", lat, lng, '../static/img/cheki.svg');
+        tacking_flag = false;
+        console.log("tacking_end");
+    }
 });
+
+for (let k = 0; k < ramen_json.length; k++){
+    console.log(ramen_json[k].name);
+    Set_Marker(ramen_json[k].name,ramen_json[k].lat,ramen_json[k].lng, '../static/img/ramen/' + ramen_json[k].pic);
+}

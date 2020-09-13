@@ -308,3 +308,67 @@ var Options = {
         ]
 };
 var map = new google.maps.Map(document.getElementById('map'), Options);
+
+var ramen_json = [
+    {
+        "name": "ohboshi",
+        "lat": 36.4021542,
+        "lng": 138.2691977,
+        "tags": ["gourmet", "ramen"],
+        "fav": 100,
+        "pic": "ohboshi.jpg",
+        "comment": "行ったことない"
+    },
+
+    {
+        "name": "memen",
+        "lat": 36.3913595,
+        "lng": 138.2288261,
+        "tags": ["gourmet", "ramen"],
+        "fav": 120,
+        "pic": "memmen.jpg",
+        "comment": "遠い"
+    },
+
+    {
+        "name": "tenhou",
+        "lat": 36.3957037,
+        "lng": 138.2545748,
+        "tags": ["gourmet", "ramen"],
+        "fav": 50,
+        "pic": "tenhou.jpg",
+        "comment": "格安"
+    },
+
+    {
+        "name": "seikyou",
+        "lat": 36.3925518,
+        "lng": 138.2635498,
+        "tags": ["gourmet", "ramen"],
+        "fav": 40,
+        "pic": "seikyou.jpg",
+        "comment": "冷やし担々麺は認める"
+    },
+
+    {
+        "name": "hachi",
+        "lat": 36.3945184,
+        "lng": 138.25943,
+        "tags": ["gourmet", "ramen"],
+        "fav": 140,
+        "pic": "hachi.jpg",
+        "comment": "まぁまぁうまい"
+    },
+
+    {
+        "name": "kisaburou",
+        "lat": 36.39079,
+        "lng": 138.2768293,
+        "tags": ["gourmet", "ramen"],
+        "fav": 150,
+        "pic": "kisaburou.jpg",
+        "comment": "上田市の次郎系ラーメン"
+    }
+]
+
+
