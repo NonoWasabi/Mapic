@@ -22,9 +22,24 @@ function show_popup() {
     }
 }
 
+function pic_size(pic_path){　//写真のサイズを取得する関数．マーカーの大きさを決定するために必要．
+    var element = new Image();
+    var width;
+    var height;
+    element.onload = function(){
+        console.log("onloadされた");
+        width = element.naturalWidth;
+        height = element.naturalHeight;
+    };
+    element.src = pic_path; //このタイミングでonloadが発動してほしいが未発動．
+    console.log(pic_path);
+    console.log(width, height);
+};
+
 function Set_Marker(marker_name, lat, lng, img){
     console.log("Set_Marker")
     //画像のサイズを決定する関数が必要
+    pic_size(img);
     var MarkerPosition = {lat, lng}
     var MarkerOptions_cheki = {
         map: map,
