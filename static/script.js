@@ -31,15 +31,22 @@ function pic_size(pic_path){　//写真のサイズを取得する関数．マ�
         width = element.naturalWidth;
         height = element.naturalHeight;
     };
-    element.src = pic_path; //このタイミングでonloadが発動してほしいが未発動．
+    element.src = pic_path; //onloadが発動してほしいがうまくいかない
     console.log(pic_path);
+    // setTimeout(
+    //     function(){
+    //         element.src = pic_path;
+    //         console.log(pic_path);
+    //     },
+    //     "100"
+    // );
     console.log(width, height);
 };
 
 function Set_Marker(marker_name, lat, lng, img){
     console.log("Set_Marker")
     //画像のサイズを決定する関数が必要
-    pic_size(img);
+    //pic_size(img);
     var MarkerPosition = {lat, lng}
     var MarkerOptions_cheki = {
         map: map,
@@ -72,6 +79,10 @@ function Set_Marker(marker_name, lat, lng, img){
         console.log(cheki_marker.post_id)
         show_popup();
     });
+    google.maps.event.addListener(cheki_marker, 'zoom_changed', ()=>{
+        //zoomレベルが15以下になったとき、markerのiconをシンプルにしたい
+        //zoomレベルに応じてマーカーの表示数を変更させたい。
+    });
 }
 
 const tack = document.getElementById('tack');
@@ -94,7 +105,12 @@ map.addListener('click', function(e){
     }
 });
 
-for (let k = 0; k < ramen_json.length; k++){
+google.maps.event.addListener(map, 'zoom_changed', function(){
+    var zoom_level = map.getZoom(); //zoom_level = 16以上は見やすい．15以下は少し窮屈な感じあり．
+});
+
+for (let k = 0; k < ramen_json.length; k++){ //ラーメン情報読み込み．範囲設定した方がいい
     console.log(ramen_json[k].name);
     Set_Marker(ramen_json[k].name,ramen_json[k].lat,ramen_json[k].lng, '../static/img/ramen/' + ramen_json[k].pic);
 }
+
