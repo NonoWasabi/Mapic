@@ -308,7 +308,26 @@ var Options = {
         ]
 };
 var map = new google.maps.Map(document.getElementById('map'), Options);
+/*
+function setPointMarker(){
+    //$('#pointlist > ul').empty(); //リストの内容を削除
+    MarkerClear();
+    var bounds = map.getBounds();
+    map_ne_lat = bounds.getNorthEast().lat();
+    map_sw_lat = bounds.getSouthWest().lat();
+    map_ne_lng = bounds.getNorthEast().lng();
+    map_sw_lng = bounds.getSouthWest().lng();
 
+    var req = new XMLHttpRequest();
+    req.onreadystatechange = function(){
+        var result = document.getElementById
+    }
+};
+
+google.maps.event.addListener(map, 'idle', () => {
+    serPointMarker();
+});
+*/
 var ramen_json = [
     {
         "name": "ohboshi",
@@ -316,7 +335,7 @@ var ramen_json = [
         "lng": 138.2691977,
         "tags": ["gourmet", "ramen"],
         "fav": 100,
-        "pic": "ohboshi.jpg",
+        "pic": "food_4_ohboshi.jpg",
         "comment": "行ったことない"
     },
 
@@ -326,7 +345,7 @@ var ramen_json = [
         "lng": 138.2288261,
         "tags": ["gourmet", "ramen"],
         "fav": 120,
-        "pic": "memmen.jpg",
+        "pic": "food_3_memmen.jpg",
         "comment": "遠い"
     },
 
@@ -336,7 +355,7 @@ var ramen_json = [
         "lng": 138.2545748,
         "tags": ["gourmet", "ramen"],
         "fav": 50,
-        "pic": "tenhou.jpg",
+        "pic": "food_6_tenhou.jpg",
         "comment": "格安"
     },
 
@@ -346,7 +365,7 @@ var ramen_json = [
         "lng": 138.2635498,
         "tags": ["gourmet", "ramen"],
         "fav": 40,
-        "pic": "seikyou.jpg",
+        "pic": "food_5_seikyou.jpg",
         "comment": "冷やし担々麺は認める"
     },
 
@@ -356,7 +375,7 @@ var ramen_json = [
         "lng": 138.25943,
         "tags": ["gourmet", "ramen"],
         "fav": 140,
-        "pic": "hachi.jpg",
+        "pic": "food_1_hachi.jpg",
         "comment": "まぁまぁうまい"
     },
 
@@ -366,7 +385,7 @@ var ramen_json = [
         "lng": 138.2768293,
         "tags": ["gourmet", "ramen"],
         "fav": 150,
-        "pic": "kisaburou.jpg",
+        "pic": "food_2_kisaburou.jpg",
         "comment": "上田市の次郎系ラーメン"
     }
 ]

@@ -43,6 +43,11 @@ function pic_size(pic_path){　//写真のサイズを取得する関数．マ�
     console.log(width, height);
 };
 
+function find_marker(lat, lng){
+    var r = Math.sqrt(Math.pow(lat, 2) + Math.pow(lng, 2))
+    console.log(r);
+};
+
 function Set_Marker(marker_name, lat, lng, img){
     console.log("Set_Marker")
     //画像のサイズを決定する関数が必要
@@ -50,10 +55,12 @@ function Set_Marker(marker_name, lat, lng, img){
     var MarkerPosition = {lat, lng}
     var MarkerOptions_cheki = {
         map: map,
-        name: marker_name,
-        position: MarkerPosition,
+        name: marker_name, //画像の名前
+        position: MarkerPosition, //画像の座標
         clikcable: true,
-        post_id:id_manager,
+        post_id:id_manager, //画像の個別id
+        img_url: img, //画像のurl保存場所
+        visible: true,
         icon: {
             url: img,
             oeigin: new google.maps.Point(0, 0),
@@ -66,6 +73,7 @@ function Set_Marker(marker_name, lat, lng, img){
         map: map,
         position: MarkerPosition,
         clikcable: false,
+        visible: true,
         icon: {
             url: '../static/img/phi.svg',
             scaledSize: new google.maps.Size(24.5,37.5)
@@ -79,9 +87,18 @@ function Set_Marker(marker_name, lat, lng, img){
         console.log(cheki_marker.post_id)
         show_popup();
     });
-    google.maps.event.addListener(cheki_marker, 'zoom_changed', ()=>{
-        //zoomレベルが15以下になったとき、markerのiconをシンプルにしたい
+    google.maps.event.addListener(map, 'zoom_changed', ()=>{
+        var zoom_level = map.getZoom();
+        //zoomlevelに合わせて画像の表示・非表示
+        if(zoom_level <= 14){
+            cheki_marker.visible = false;
+        }
+        else{
+            cheki_marker.visible = true;
+        }
+        
         //zoomレベルに応じてマーカーの表示数を変更させたい。
+
     });
 }
 
@@ -94,11 +111,11 @@ tack.addEventListener('click', function(e){
 });
 
 map.addListener('click', function(e){
+    var lat = e.latLng.lat(); //緯度
+    var lng = e.latLng.lng(); //経度
+    console.log(lat, lng);
+    find_marker(lat, lng);
     if(tacking_flag){
-        var lat = e.latLng.lat(); //緯度
-        var lng = e.latLng.lng(); //経度
-        console.log(lat, lng);
-        //show_popup();
         Set_Marker("hoge", lat, lng, '../static/img/cheki.svg');
         tacking_flag = false;
         console.log("tacking_end");
