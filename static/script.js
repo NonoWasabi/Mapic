@@ -1,4 +1,5 @@
-var id_manager = 1
+var marker_ary = new Array();
+var phimarker_ary = new Array();
 function show_popup() {
     console.log("enter_the_function")
     var popup = document.getElementById('popup');
@@ -22,6 +23,7 @@ function show_popup() {
     }
 }
 
+
 function pic_size(pic_path){　//写真のサイズを取得する関数．マーカーの大きさを決定するために必要．
     var element = new Image();
     var width;
@@ -31,28 +33,29 @@ function pic_size(pic_path){　//写真のサイズを取得する関数．マ�
         width = element.naturalWidth;
         height = element.naturalHeight;
     };
-    element.src = pic_path; //onloadが発動してほしいがうまくいかない
+    element.src = pic_path; //ここでonloadが発動してほしいがうまくいかない
     console.log(pic_path);
     // setTimeout(
-    //     function(){
-    //         element.src = pic_path;
-    //         console.log(pic_path);
-    //     },
-    //     "100"
-    // );
-    console.log(width, height);
-};
-
-function find_marker(lat, lng){
-    var r = Math.sqrt(Math.pow(lat, 2) + Math.pow(lng, 2))
-    console.log(r);
+        //     function(){
+            //         element.src = pic_path;
+            //         console.log(pic_path);
+            //     },
+            //     "100"
+            // );
+            console.log(width, height);
+        };
+        
+        function find_marker(lat, lng){
+            var r = Math.sqrt(Math.pow(lat, 2) + Math.pow(lng, 2))
+            console.log(r);
 };
 
 function Set_Marker(marker_name, lat, lng, img){
-    console.log("Set_Marker")
+    console.log("Set_Marker");
+    var id_manager = marker_ary.length;
     //画像のサイズを決定する関数が必要
     //pic_size(img);
-    var MarkerPosition = {lat, lng}
+    var MarkerPosition = {lat, lng};
     var MarkerOptions_cheki = {
         map: map,
         name: marker_name, //画像の名前
@@ -68,7 +71,6 @@ function Set_Marker(marker_name, lat, lng, img){
             scaledSize: new google.maps.Size(124,124)
         },
     };
-    id_manager += 1;
     var MarkerOptions_phi = {
         map: map,
         position: MarkerPosition,
@@ -80,26 +82,42 @@ function Set_Marker(marker_name, lat, lng, img){
         },
         animation: google.maps.Animation.DROP 
     };
+    
+    marker_ary[id_manager] = new google.maps.Marker(MarkerOptions_cheki);
+    phimarker_ary[id_manager] = new google.maps.Marker(MarkerOptions_phi);
 
-    var cheki_marker = new google.maps.Marker(MarkerOptions_cheki)
-    var phi_marker = new google.maps.Marker(MarkerOptions_phi)
-    google.maps.event.addListener(cheki_marker,'click',()=>{
-        console.log(cheki_marker.post_id)
+    google.maps.event.addListener(marker_ary[id_manager],'click',()=>{
+        console.log(marker_ary[id_manager].post_id)
         show_popup();
     });
     google.maps.event.addListener(map, 'zoom_changed', ()=>{
         var zoom_level = map.getZoom();
         //zoomlevelに合わせて画像の表示・非表示
         if(zoom_level <= 14){
-            cheki_marker.visible = false;
+            marker_ary[id_manager].visible = false;
         }
         else{
-            cheki_marker.visible = true;
+            marker_ary[id_manager].visible = true;
         }
         
         //zoomレベルに応じてマーカーの表示数を変更させたい。
-
+        
     });
+}
+
+function Marker_Clear(){
+    if(marker_ary.length > 0){
+        for(i = 0; i < marker_ary.length; i++){
+            marker_ary[i].setMap(); //マーカー削除
+            phimarker_ary[i].setMap();
+        }
+        var ary_count = marker_ary.length
+        for(i = 0; i < ary_count; i++){
+            marker_ary.shift(); //マーカーがあった部分のインデックスを削除
+            phimarker_ary.shift();
+            console.log(marker_ary.length)
+        }
+    }
 }
 
 const tack = document.getElementById('tack');
@@ -110,13 +128,14 @@ tack.addEventListener('click', function(e){
     tacking_flag = true;
 });
 
-map.addListener('click', function(e){
+map.addListener('click', function(e){ //地図に張り付けた写真はサーバーに送るべし
     var lat = e.latLng.lat(); //緯度
     var lng = e.latLng.lng(); //経度
     console.log(lat, lng);
     find_marker(lat, lng);
     if(tacking_flag){
-        Set_Marker("hoge", lat, lng, '../static/img/cheki.svg');
+        //Set_Marker("hoge", lat, lng, '../static/img/cheki.svg');
+        Marker_Clear(); //makerclearの検査用
         tacking_flag = false;
         console.log("tacking_end");
     }
@@ -131,3 +150,8 @@ for (let k = 0; k < ramen_json.length; k++){ //ラーメン情報読み込み．
     Set_Marker(ramen_json[k].name,ramen_json[k].lat,ramen_json[k].lng, '../static/img/ramen/' + ramen_json[k].pic);
 }
 
+/*
+google.map.event.addListener(map, 'idle', function(){
+    
+});
+*/
